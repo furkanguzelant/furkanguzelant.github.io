@@ -5,13 +5,7 @@ const publications = [
   {
     title: "Domain Adaptation and Identity Stylization of 3D GANs",
     authors: "Furkan Güzelant, John Doe",
-    venue: "CVPR 2025",
-    link: "#",
-  },
-  {
-    title: "3D Trajectory Estimation from Monocular Video",
-    authors: "Furkan Güzelant, Jane Doe",
-    venue: "ECCV 2024",
+    venue: "ICCV 2025",
     link: "#",
   },
 ];
@@ -38,7 +32,7 @@ export default function Portfolio() {
               Email
             </a>
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/furkanguzelant"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-gray-300 hover:bg-gray-100 transition"
