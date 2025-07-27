@@ -54,7 +54,7 @@ export default function Portfolio() {
               <div className="flex gap-4 justify-center lg:justify-start mb-8">
                 <a
                   href="mailto:furkan.guzelant@bilkent.edu.tr"
-                  className="p-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                   title="Email"
                 >
                   <Mail className="w-5 h-5" />
@@ -63,7 +63,7 @@ export default function Portfolio() {
                   href="https://github.com/furkanguzelant"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                   title="GitHub"
                 >
                   <Github className="w-5 h-5" />
@@ -72,16 +72,25 @@ export default function Portfolio() {
                   href="https://www.linkedin.com/in/furkan-g%C3%BCzelant-38aa5a213/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                   title="LinkedIn"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
+                  href="https://scholar.google.com/citations?user=YHEA1WcAAAAJ&hl=tr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Google Scholar"
+                >
+                  <GraduationCap className="w-5 h-5" />
+                </a>
+                <a
                   href="/cv/Resume_Furkan_Guzelant.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+                  className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                   title="Curriculum Vitae"
                 >
                   <FileUser className="w-5 h-5" />
