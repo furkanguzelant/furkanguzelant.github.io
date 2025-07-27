@@ -19,31 +19,31 @@ export default function Portfolio() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Sidebar - Personal Info */}
-          <div className="lg:col-span-4 xl:col-span-3">
+          <div className="lg:col-span-4 xl:col-span-3 bg-gray-50 lg:bg-gray-50 rounded-lg lg:rounded-none p-6 lg:p-0">
             <div className="sticky top-8">
               {/* Profile Section */}
-              <div className="mb-8">
-                <div className="w-48 h-48   rounded-full mx-auto lg:mx-0 mb-6 flex items-center justify-center" style={{ backgroundColor: '#ccd1d4' }}>
-                  <span className="text-6xl text-gray-400">
+              <div className="mb-8 items-center text-center justify-center">
+                <div className="w-48 h-48 rounded-full mx-auto mb-6 flex items-center text-center justify-center" style={{ backgroundColor: '#ccd1d4' }}>
+                  <span className="text-6xl text-gray-400 flex items-center justify-center">
                     {/* profile picture */}
                     <img src={profileImage} alt="Furkan Güzelant" className="rounded-full object-cover" />
                   </span>
                 </div>
                 
-                <h1 className="text-2xl font-bold text-gray-900 text-center lg:text-left mb-2">
+                <h1 className="text-2xl font-bold text-gray-900 text-center mb-2">
                   Furkan Güzelant
                 </h1>
                 
-                <p className="text-gray-600 text-center lg:text-left mb-4">
+                <p className="text-gray-600 text-center mb-4">
                   M.Sc. Student
                 </p>
                 
                 <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center justify-center lg:justify-start gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <GraduationCap className="w-4 h-4" />
                     <span>Bilkent University</span>
                   </div>
-                  <div className="flex items-center justify-center lg:justify-start gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <MapPin className="w-4 h-4" />
                     <span>Ankara, Turkey</span>
                   </div>
