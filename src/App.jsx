@@ -140,7 +140,7 @@ export default function Portfolio() {
               </div>
             </section>
 
-            {/* Publications Section */}
+                      {/* Publications Section */}
             <section className="mb-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 📚 Publications
@@ -148,10 +148,10 @@ export default function Portfolio() {
               
               <div className="space-y-8">
                 {publications.map((pub, idx) => (
-                  <div key={idx} className="flex gap-6">
+                  <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                     {/* Publication Image */}
-                    <div className="flex-shrink-0">
-                      <div className="w-45 h-36 bg-gray-100 rounded-lg overflow-hidden border">
+                    <div className="flex-shrink-0 self-start">
+                      <div className="w-full sm:w-65 h-54 sm:h-44 bg-gray-100 rounded-lg overflow-hidden border mx-auto sm:mx-0 max-w-xs sm:max-w-none">
                         <img 
                           src={pub.image} 
                           alt={`${pub.title} preview`}
@@ -168,17 +168,18 @@ export default function Portfolio() {
                     </div>
                     
                     {/* Publication Content */}
-                    <div className="flex gap-4 flex-1">
-                      <div className="text-2xl text-gray-400 mt-1 flex-shrink-0">-</div>
+                    <div className="flex gap-4 flex-1 min-w-0">
+                      <div className="text-2xl text-gray-400 mt-1 flex-shrink-0 hidden sm:block">-</div>
                       <div className="flex-1 min-w-0">
+                        <div className="sm:hidden text-2xl text-gray-400 mb-2">-</div>
                         <a
                           href={pub.link}
-                          className="text-lg font-medium text-blue-600 hover:text-blue-800 hover:underline block mb-2"
+                          className="text-lg sm:text-xl font-medium text-blue-600 hover:text-blue-800 hover:underline block mb-2 leading-tight"
                         >
                           {pub.title}
                         </a>
-                        <p className="text-gray-700 mb-1">{pub.authors}</p>
-                        <p className="text-gray-600 italic">{pub.venue}</p>
+                        <p className="text-gray-700 mb-1 text-base sm:text-lg">{pub.authors}</p>
+                        <p className="text-gray-600 italic text-sm sm:text-base">{pub.venue}</p>
                       </div>
                     </div>
                   </div>
