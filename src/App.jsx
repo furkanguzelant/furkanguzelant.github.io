@@ -8,7 +8,7 @@ const publications = [
     venue: "IEEE/CVF International Conference on Computer Vision (ICCV), 2025",
     link: "https://three-bee.github.io/head_stylization/",
     type: "conference",
-    image: "https://github.com/three-bee/3d_head_stylization/blob/main/assets/teaser.png?raw=true", // Placeholder image URL
+    image: "/img/teaser.png", // Placeholder image URL
   },
 ];
 
@@ -78,7 +78,7 @@ export default function Portfolio() {
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="/cv/CV - FURKAN GÜZELANT.pdf"
+                  href="/cv/Resume_Furkan_Guzelant.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
@@ -104,15 +104,15 @@ export default function Portfolio() {
                 <div className="space-y-3 text-sm">
                   <div>
                     <div className="font-medium text-gray-900">MSc Computer Science</div>
-                    <div className="text-gray-600">Bilkent University, 2025</div>
+                    <div className="text-gray-600">Bilkent University, 2024-Present</div>
                   </div>
                   <div>
                     <div className="font-medium text-gray-900">Erasmus Exchange</div>
-                    <div className="text-gray-600">École Polytechnique Fédérale de Lausanne (EPFL), 2024</div>
+                    <div className="text-gray-600">École Polytechnique Fédérale de Lausanne (EPFL), 2023</div>
                   </div>
                   <div>
                     <div className="font-medium text-gray-900">BSc Computer Science</div>
-                    <div className="text-gray-600">Bilkent University, 2023</div>
+                    <div className="text-gray-600">Bilkent University, 2019-2024</div>
                   </div>
                 </div>
               </div>
@@ -125,16 +125,17 @@ export default function Portfolio() {
             {/* Introduction */}
             <section className="mb-12">
               <div className="prose prose-lg text-gray-700 max-w-none">
-                <p className="text-2xl mb-6">
-                  👋 Hi there!
+                <p className="text-2xl font-bold mb-6">
+                  🙋‍♂️ About me
                 </p>
-                <p className="text-lg mb-4">
-                  I'm Furkan, a Computer Vision researcher focusing on 3D GANs, diffusion models, and stylization. 
-                  I got my degree at <a href="#" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Bilkent University</a>, 
-                  where I work under the supervision of <a href="#" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Prof. Aysegul Dundar</a>.
+                <p className="text-xl mb-4">
+                  I'm Furkan, a Master student at Bilkent University, focusing on 3D generation, diffusion models, and stylization. 
+                  I obtained my BSc degree at Bilkent University, 
+                  where I work under the supervision of <a href="https://www.cs.bilkent.edu.tr/~adundar/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Asst. Prof. Aysegul Dundar </a> 
+                  at the <a href="https://dlr.bilkent.edu.tr/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Generative Deep Learning Research Lab</a>.
                 </p>
-                <p className="text-lg mb-6">
-                  My research interests cover 3D reconstruction, generative models, and neural rendering techniques. 
+                <p className="text-xl mb-6">
+                  My research interests cover 3D generative models and image stylization. 
                   I'm particularly interested in identity-preserving stylization and multiview consistency in 3D generation.
                 </p>
               </div>
@@ -198,7 +199,7 @@ export default function Portfolio() {
                   <div className="text-2xl text-gray-400 mt-1">-</div>
                   <div className="flex-1">
                     <p className="text-gray-700">
-                      <span className="font-medium text-gray-900">[2025.01]</span> Our paper on 3D head stylization got accepted to ICCV 2025!
+                      <span className="font-medium text-gray-900">[2025.06]</span> Our paper on 3D head stylization got accepted to ICCV 2025!
                     </p>
                   </div>
                 </div>
