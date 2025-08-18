@@ -11,18 +11,7 @@
   img { width: 150px; height: auto; border-radius: 8px; }
   video { width: 150px; height: auto; border-radius: 8px; }
 </style>
-<script>
-// Synchronize video playback in each row
-function syncRowVideos(row) {
-    const videos = row.querySelectorAll('video');
-    videos.forEach(v => v.currentTime = 0);
-    videos.forEach(v => v.play());
-}
-window.addEventListener('load', () => {
-    const rows = document.querySelectorAll('tr.data-row');
-    rows.forEach(row => syncRowVideos(row));
-});
-</script>
+
 </head>
 <body>
 <h1>Methods Comparison - Pixar</h1>
