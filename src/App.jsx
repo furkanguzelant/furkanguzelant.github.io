@@ -138,14 +138,10 @@ export default function Portfolio() {
                   🙋‍♂️ About me
                 </p>
                 <p className="text-xl mb-4">
-                  I'm Furkan, a Master student at Bilkent University, focusing on 3D generation, diffusion models, and stylization. 
+                  I'm Furkan, a Master's student at Bilkent University, focusing on 3D generation, diffusion models, and image stylization. 
                   I obtained my BSc degree at Bilkent University, 
                   where I work under the supervision of <a href="https://www.cs.bilkent.edu.tr/~adundar/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Asst. Prof. Aysegul Dundar </a> 
                   at the <a href="https://dlr.bilkent.edu.tr/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Generative Deep Learning Research Lab</a>.
-                </p>
-                <p className="text-xl mb-6">
-                  My research interests cover 3D generative models and image stylization. 
-                  I'm particularly interested in identity-preserving stylization and multiview consistency in 3D generation.
                 </p>
               </div>
             </section>
