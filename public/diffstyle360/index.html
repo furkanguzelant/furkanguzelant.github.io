@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+    .hero {
+      background: linear-gradient(to right, rgb(75, 100, 255), rgb(255, 123, 0));
+      color: white;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+    }
+    /* Updated subtitle styles for authors */
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      line-height: 1.4;
+      margin: 0;
+    }
+    .hero-affiliation {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-top: 0.4rem;
+    }
+    .section {
+      padding: 2.5rem 1rem;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      text-align: center;
+      max-width: 840px;
+      margin: 0 auto 1.5rem auto;
+      color: #555;
+      font-size: 0.98rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-size: 0.98rem;
+      text-align: justify;
+    }
+    .hero-image-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    }
+    .video-grid-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+    .vertical-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      font-size: 0.9rem;
+      margin-right: 0.75rem;
+      color: #333;
+      min-width: 1.5rem;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    .matrix-grid {
+      grid-template-columns: 80px repeat(8, 1fr);
+      gap: 3px;
+      width: 100%;
+    }
+    .teaser-grid {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+    }
+    .teaser-matrix-wrapper {
+      overflow-x: auto;
+    }
+    .teaser-matrix {
+      display: grid;
+      grid-template-columns: 48px repeat(10, minmax(0, 1fr));
+      gap: 3px;
+      align-items: center;
+    }
+    .teaser-header-cell {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 0.2rem 0.1rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .teaser-row-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 0.2rem 0.1rem;
+      white-space: nowrap;
+    }
+    .teaser-cell {
+      background: #ffffff;
+      border-radius: 3px;
+      padding: 0.15rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .teaser-input-col {
+      background: #f1f3f7;
+      border-right: 2px solid rgba(0,0,0,0.07);
+    }
+    .teaser-cell img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 2px;
+    }
+    .video-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .teaser-wrapper {
+      padding: 0.15rem;
+      box-shadow: none;
+    }
+    .teaser-wrapper .gif-img {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .video-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: #333;
+      text-align: center;
+    }
+    .matrix-cell {
+      font-size: 0.75rem;
+    }
+    .matrix-header {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .matrix-style-label {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .matrix-video-wrapper {
+      width: 100%;
+      padding: 0.15rem;
+      background: #ffffff;
+      border-radius: 3px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .matrix-video-wrapper .gif-img {
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+    .additional-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+    .gif-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 3px;
+    }
+    .frame-label {
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+      font-size: 0.95rem;
+      text-align: center;
+      color: #333;
+    }
+    .comparison-controls {
+      max-width: 1200px;
+      margin: 1.2rem auto 1.6rem auto;
+      padding: 0 0.3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      font-size: 0.9rem;
+    }
+    .comparison-controls input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: rgb(75, 100, 255);
+      outline: none;
+    }
+    .comparison-controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #222;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.18);
+      cursor: pointer;
+    }
+    .comparison-controls input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #222;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.18);
+      cursor: pointer;
+    }
+    .comparison-angle-label {
+      margin-top: 0.35rem;
+      text-align: right;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    .comparison-grid-wrapper {
+      max-width: 1200px;
+      margin: 0 auto 1.5rem auto;
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .comparison-reference {
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 0.5rem;
+      text-align: center;
+      position: sticky;
+      top: 1rem;
+    }
+    .comparison-reference h4 {
+      margin: 0 0 0.4rem 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .comparison-reference img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .comparison-main {
+      width: 100%;
+    }
+    .comparison-methods {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      gap: 3px;
+      padding: 0 0.4rem;
+    }
+    .comparison-methods span {
+      padding: 0.2rem 0.1rem;
+      white-space: nowrap;
+    }
+    .comparison-body {
+      display: block;
+    }
+    .comparison-image-box {
+      background: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      padding: 0.4rem;
+      position: relative;
+    }
+    .comparison-grid-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 3px;
+    }
+    .comparison-styles {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 6px;
+      pointer-events: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #222;
+    }
+    .comparison-style-label {
+      position: absolute;
+      left: 0;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      transform-origin: center center;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .comparison-style-0 { top: 10%; }
+    .comparison-style-1 { top: 30%; }
+    .comparison-style-2 { top: 50%; }
+    .comparison-style-3 { top: 70%; }
+    .comparison-style-4 { top: 90%; }
+    .teaser-style-row {
+      max-width: 1200px;
+      margin: 0 auto 0.5rem auto;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #222;
+    }
+    .teaser-style-label {
+      text-align: center;
+      padding: 0.1rem 0.15rem;
+      white-space: nowrap;
+    }
+    footer {
+      padding: 1.5rem 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+      background: #fafafa;
+      border-top: 1px solid #e5e5e5;
+    }
+    @media (max-width: 900px) {
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .video-grid-wrapper {
+        align-items: flex-start;
+      }
+      .comparison-grid-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .comparison-reference {
+        position: relative;
+        top: auto;
+      }
+    }
+    @media (max-width: 600px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      .vertical-text {
+        writing-mode: horizontal-tb;
+        transform: none;
+        margin-right: 0.5rem;
+        margin-bottom: 0.4rem;
+      }
+      .video-grid-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1 class="hero-title">
+      DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention
+    </h1>
+    <div class="hero-subtitle">
+      Furkan Güzelant &nbsp;&nbsp; Arda Göktoğan &nbsp;&nbsp; Tarık Kaya &nbsp;&nbsp; Ayşegül Dündar
+    </div>
+    <div class="hero-affiliation">
+      Bilkent University
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Stylized Results</h2>
+      <p class="section-subtitle">
+        Our method's stylized results across different styles and identities are shown below, summarizing our main qualitative findings.
+      </p>
+      <div class="teaser-style-row">
+        <span class="teaser-style-label">Input</span>
+        <span class="teaser-style-label">Joker</span>
+        <span class="teaser-style-label">Pixar</span>
+        <span class="teaser-style-label">Werewolf</span>
+        <span class="teaser-style-label">Anime</span>
+        <span class="teaser-style-label">Avatar</span>
+        <span class="teaser-style-label">Hulk</span>
+        <span class="teaser-style-label">Sketch</span>
+        <span class="teaser-style-label">Statue</span>
+        <span class="teaser-style-label">Zombie</span>
+      </div>
+      <div class="hero-image-wrapper">
+        <img class="hero-image" src="assets/teaser_grid.gif" alt="Multi-style comparison grid">
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Abstract</h2>
+      <div class="content">
+        3D head stylization has emerged as a key technique for reimagining realistic human heads in various artistic forms, enabling expressive character design and creative visual experiences in digital media. Despite the progress in 3D-aware generation, existing 3D head stylization methods often rely on computationally expensive optimization or domain-specific fine-tuning to adapt to new styles. To address these limitations, we propose DiffStyle360, a diffusion-based framework capable of producing multi-view consistent, identity-preserving 3D head stylizations across diverse artistic domains given a single style reference image, without requiring per-style training. Building upon the 3D-aware DiffPortrait360 architecture, our approach introduces two key components: the Style Appearance Module, which disentangles style from content, and the Style Fusion Attention mechanism, which adaptively balances structure preservation and stylization fidelity in the latent space. Furthermore, we employ a 3D GAN-generated multi-view dataset for robust fine-tuning and introduce a temperature-based key scaling strategy to control stylization intensity during inference. Extensive experiments on FFHQ and RenderMe360 demonstrate that DiffStyle360 achieves superior style quality, outperforming state-of-the-art GAN- and diffusion-based stylization methods across challenging style domains.
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var slider = document.getElementById('view-slider');
+      var img = document.getElementById('comparison-grid-image');
+      var label = document.getElementById('view-slider-label');
+      if (!slider || !img) return;
+
+      function update() {
+        var v = parseInt(slider.value, 10) || 0;
+        var frame = v.toString().padStart(2, '0');
+        img.src = 'assets/comparison_grids/frame_' + frame + '.jpg';
+        if (label) {
+          var deg = Math.round((v * 360) / 31);
+          label.textContent = deg + '° / 360°';
+        }
+      }
+
+      slider.addEventListener('input', update);
+      slider.addEventListener('change', update);
+      update();
+    });
+  </script>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Qualitative Results and Comparisons</h2>
+      <p class="section-subtitle">
+        Qualitative comparisons across methods and styles.
+      </p>
+
+      <h3 class="frame-label" style="margin-top:2rem;">View-wise comparisons</h3>
+
+      <div class="comparison-controls">
+        <input type="range" id="view-slider" min="0" max="31" value="0">
+        <div class="comparison-angle-label">
+          <span id="view-slider-label">0° / 360°</span>
+        </div>
+      </div>
+
+      <div class="comparison-grid-wrapper">
+        <div class="comparison-reference">
+          <h4>Input Identity</h4>
+          <img src="assets/00204.jpg" alt="Input reference">
+        </div>
+        <div class="comparison-main">
+          <div class="comparison-methods">
+            <span>DiffusionGAN3D</span>
+            <span>IP2P</span>
+            <span>IdentityPreserving</span>
+            <span>InstantID</span>
+            <span>StyleGANFusion</span>
+            <span>StyleGANNADA</span>
+            <span>StyleCLIP</span>
+            <span>Ours</span>
+          </div>
+          <div class="comparison-body">
+            <div class="comparison-image-box">
+              <div class="comparison-styles">
+                <span class="comparison-style-label comparison-style-0">Joker</span>
+                <span class="comparison-style-label comparison-style-1">Pixar</span>
+                <span class="comparison-style-label comparison-style-2">Sketch</span>
+                <span class="comparison-style-label comparison-style-3">Statue</span>
+                <span class="comparison-style-label comparison-style-4">Werewolf</span>
+              </div>
+              <img
+                id="comparison-grid-image"
+                class="comparison-grid-image"
+                src="assets/comparison_grids/frame_00.jpg"
+                alt="Methods × styles view"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Additional Results 1</h2>
+      <div class="video-wrapper additional-wrapper">
+        <img class="gif-img" src="assets/additional_result-1.png" alt="Additional result 1">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Additional Results 2</h2>
+      <div class="video-wrapper additional-wrapper">
+        <img class="gif-img" src="assets/additional_result-2.png" alt="Additional result 2">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+  </footer>
+</body>
+</html>
