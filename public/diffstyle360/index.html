@@ -30,12 +30,46 @@
       line-height: 1.4;
       margin: 0;
     }
+    .hero-subtitle a {
+      color: #e5f0ff;
+      text-decoration: none;
+    }
+    .hero-subtitle a:hover {
+      text-decoration: underline;
+    }
     .hero-affiliation {
       font-size: 1rem;
       opacity: 0.9;
       font-weight: 400;
       margin-top: 0.4rem;
     }
+    .hero-links {
+      margin-top: 1.1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.45rem 1.3rem;
+      border-radius: 999px;
+      background: #333;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    }
+    .hero-button:hover {
+      background: #111;
+    }
+    .hero-button-icon {
+      margin-right: 0.4rem;
+      font-size: 0.95rem;
+    }
+
     .section {
       padding: 2.5rem 1rem;
     }
@@ -399,15 +433,29 @@
 </head>
 <body>
 
-  <header class="hero">
+    <header class="hero">
     <h1 class="hero-title">
       DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention
     </h1>
     <div class="hero-subtitle">
-      Furkan Güzelant &nbsp;&nbsp; Arda Göktoğan &nbsp;&nbsp; Tarık Kaya &nbsp;&nbsp; Ayşegül Dündar
+      <a href="https://furkanguzelant.github.io">Furkan Güzelant</a>
+      &nbsp;·&nbsp;
+      <a href="https://agoktogan.github.io/">Arda Göktoğan</a>
+      &nbsp;·&nbsp;
+      <a>Tarık Kaya</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.cs.bilkent.edu.tr/~adundar/">Ayşegül Dündar</a>
     </div>
     <div class="hero-affiliation">
       Bilkent University
+    </div>
+    <div class="hero-links">
+      <a class="hero-button" href="https://www.arxiv.org/abs/2511.22411" target="_blank" rel="noopener noreferrer">
+        <span class="hero-button-icon">📄</span> Paper
+      </a>
+      <a class="hero-button" href="https://github.com/furkanguzelant/DiffStyle360" target="_blank" rel="noopener noreferrer">
+        <span class="hero-button-icon">💻</span> Code
+      </a>
     </div>
   </header>
 
