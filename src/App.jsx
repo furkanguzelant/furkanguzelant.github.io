@@ -10,6 +10,14 @@ const publications = [
     type: "conference",
     image: "/img/teaser.png", // Placeholder image URL
   },
+  {
+    title: "DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention",
+    authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
+    venue: "arXiv, 2025",
+    link: "https://arxiv.org/abs/2511.22411",
+    type: "preprint",
+    image: "/img/teaser_grid.gif", // Placeholder image URL
+  }
 ];
 
 export default function Portfolio() {
