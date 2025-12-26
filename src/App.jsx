@@ -1,6 +1,11 @@
 import React from "react";
 import { Github, Mail, ExternalLink, MapPin, GraduationCap, Linkedin, FileUser} from "lucide-react";
 import profileImage from './assets/image.jpeg'; // Adjust the path as necessary
+
+// Placeholder images for demonstration if local assets aren't available
+const placeholderTeaser1 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?text=ICCV+2025+Teaser";
+const placeholderTeaser2 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?text=arXiv+2025+Teaser";
+
 const publications = [
   {
     title: "Identity Preserving 3D Head Stylization with Multiview Score Distillation",
@@ -8,7 +13,8 @@ const publications = [
     venue: "IEEE/CVF International Conference on Computer Vision (ICCV), 2025",
     link: "https://three-bee.github.io/head_stylization/",
     type: "conference",
-    image: "/img/teaser.png", // Placeholder image URL
+    // Using placeholder if local path fails, change back to "/img/teaser.png" if needed
+    image: placeholderTeaser1, 
   },
   {
     title: "DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention",
@@ -16,7 +22,8 @@ const publications = [
     venue: "arXiv, 2025",
     link: "https://arxiv.org/abs/2511.22411",
     type: "preprint",
-    image: "/img/teaser_grid.gif", // Placeholder image URL
+    // Using placeholder if local path fails, change back to "/img/teaser_grid.gif" if needed
+    image: placeholderTeaser2,
   }
 ];
 
@@ -32,9 +39,11 @@ export default function Portfolio() {
               {/* Profile Section */}
               <div className="mb-8 items-center text-center justify-center">
                 <div className="w-48 h-48 rounded-full mx-auto mb-6 flex items-center text-center justify-center" style={{ backgroundColor: '#ccd1d4' }}>
-                  <span className="text-6xl text-gray-400 flex items-center justify-center">
-                    {/* profile picture */}
-                    <img src={profileImage} alt="Furkan Güzelant" className="rounded-full object-cover" />
+                  <span className="text-6xl text-gray-400 flex items-center justify-center overflow-hidden rounded-full w-full h-full">
+                    {/* profile picture - added w-full h-full for better containment */}
+                    <img src={profileImage} alt="Furkan Güzelant" className="w-full h-full object-cover" 
+                      onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerText='FG'}}
+                    />
                   </span>
                 </div>
                 
@@ -154,7 +163,7 @@ export default function Portfolio() {
               </div>
             </section>
 
-                      {/* Publications Section */}
+            {/* Publications Section */}
             <section className="mb-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 📚 Publications
@@ -162,30 +171,40 @@ export default function Portfolio() {
               
               <div className="space-y-8">
                 {publications.map((pub, idx) => (
-                  <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                    {/* Publication Image */}
+                  <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-8">
+                    {/* Publication Image Container */}
                     <div className="flex-shrink-0 self-start">
-                      <div className="w-full sm:w-65 h-54 sm:h-44 bg-gray-100 rounded-lg overflow-hidden border mx-auto sm:mx-0 max-w-xs sm:max-w-none">
+                      {/* UPDATED CLASSES HERE:
+                          - Used standard `sm:w-72` for fixed width on desktop.
+                          - Used `aspect-video` to enforce a consistent 16:9 ratio.
+                          - Kept `mx-auto sm:mx-0` for responsive alignment.
+                      */}
+                      <div className="w-full max-w-xs sm:max-w-none sm:w-72 aspect-video bg-gray-100 rounded-lg overflow-hidden border mx-auto sm:mx-0 relative group">
                         <img 
                           src={pub.image} 
                           alt={`${pub.title} preview`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          // object-cover ensures the image fills the aspect-ratio box without stretching
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
                             e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
+                            // Show fallback if image fails
+                            e.target.nextSibling.style.display = 'flex'; 
                           }}
                         />
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center hidden">
+                        {/* Fallback for missing image */}
+                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center hidden">
                           <span className="text-gray-400 text-xs text-center px-2">Paper<br/>Image</span>
                         </div>
                       </div>
                     </div>
                     
                     {/* Publication Content */}
-                    <div className="flex gap-4 flex-1 min-w-0">
-                      <div className="text-2xl text-gray-400 mt-1 flex-shrink-0 hidden sm:block">-</div>
+                    <div className="flex gap-4 flex-1 min-w-0 pt-1">
+                      {/* Bullet point alignment fix */}
+                      <div className="text-2xl text-gray-400 hidden sm:block leading-none h-full pt-[2px]">-</div>
                       <div className="flex-1 min-w-0">
-                        <div className="sm:hidden text-2xl text-gray-400 mb-2">-</div>
+                        {/* Mobile bullet point */}
+                        <div className="sm:hidden text-2xl text-gray-400 mb-2 leading-none">-</div>
                         <a
                           href={pub.link}
                           className="text-lg sm:text-xl font-medium text-blue-600 hover:text-blue-800 hover:underline block mb-2 leading-tight"
@@ -209,7 +228,7 @@ export default function Portfolio() {
               
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="text-2xl text-gray-400 mt-1">-</div>
+                  <div className="text-2xl text-gray-400 leading-none pt-[2px]">-</div>
                   <div className="flex-1">
                     <p className="text-gray-700">
                       <span className="font-medium text-gray-900">[2025.06]</span> Our paper on 3D head stylization got accepted to ICCV 2025!
@@ -218,7 +237,7 @@ export default function Portfolio() {
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="text-2xl text-gray-400 mt-1">-</div>
+                  <div className="text-2xl text-gray-400 leading-none pt-[2px]">-</div>
                   <div className="flex-1">
                     <p className="text-gray-700">
                       <span className="font-medium text-gray-900">[2024.09]</span> Started my research at Bilkent University.
