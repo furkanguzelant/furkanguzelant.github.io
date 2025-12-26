@@ -13,8 +13,7 @@ const publications = [
     venue: "arXiv, 2025",
     link: "https://arxiv.org/abs/2511.22411",
     type: "preprint",
-    // Using placeholder if local path fails, change back to "/img/teaser_grid.gif" if needed
-    image: placeholderTeaser2,
+    image: "/img/teaser_grid.gif",
   },
   {
     title: "Identity Preserving 3D Head Stylization with Multiview Score Distillation",
@@ -22,8 +21,7 @@ const publications = [
     venue: "IEEE/CVF International Conference on Computer Vision (ICCV), 2025",
     link: "https://three-bee.github.io/head_stylization/",
     type: "conference",
-    // Using placeholder if local path fails, change back to "/img/teaser.png" if needed
-    image: placeholderTeaser1, 
+    image: "/img/teaser.png", 
   },
 ];
 
