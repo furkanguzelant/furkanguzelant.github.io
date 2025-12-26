@@ -7,6 +7,15 @@ const placeholderTeaser1 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?te
 const placeholderTeaser2 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?text=arXiv+2025+Teaser";
 
 const publications = [
+    {
+    title: "DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention",
+    authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
+    venue: "arXiv, 2025",
+    link: "https://arxiv.org/abs/2511.22411",
+    type: "preprint",
+    // Using placeholder if local path fails, change back to "/img/teaser_grid.gif" if needed
+    image: placeholderTeaser2,
+  },
   {
     title: "Identity Preserving 3D Head Stylization with Multiview Score Distillation",
     authors: "Bahri Batuhan Bilecen, Ahmet Berke Gokmen, Furkan Guzelant, Aysegul Dundar",
@@ -16,15 +25,6 @@ const publications = [
     // Using placeholder if local path fails, change back to "/img/teaser.png" if needed
     image: placeholderTeaser1, 
   },
-  {
-    title: "DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention",
-    authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
-    venue: "arXiv, 2025",
-    link: "https://arxiv.org/abs/2511.22411",
-    type: "preprint",
-    // Using placeholder if local path fails, change back to "/img/teaser_grid.gif" if needed
-    image: placeholderTeaser2,
-  }
 ];
 
 export default function Portfolio() {
