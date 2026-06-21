@@ -8,10 +8,10 @@ const placeholderTeaser2 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?te
 
 const publications = [
     {
-    title: "DiffStyle360: Diffusion-Based 360° Head Stylization via Style Fusion Attention",
+    title: "StyleFusion360: View-Consistent Head Stylization via Adaptive Style Modulation",
     authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
-    venue: "arXiv, 2025",
-    link: "https://arxiv.org/abs/2511.22411",
+    venue: "ECCV, 2026",
+    link: "/stylefusion360",
     type: "preprint",
     image: "/img/teaser_grid.gif",
   },
