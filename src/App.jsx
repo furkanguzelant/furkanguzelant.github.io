@@ -10,18 +10,43 @@ const publications = [
     {
     title: "StyleFusion360: View-Consistent Head Stylization via Adaptive Style Modulation",
     authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
-    venue: "ECCV, 2026",
+    venue: "ECCV 2026",
     link: "/stylefusion360",
     type: "preprint",
+    highlightVenue: true,
     image: "/img/teaser_grid.gif",
   },
   {
     title: "Identity Preserving 3D Head Stylization with Multiview Score Distillation",
     authors: "Bahri Batuhan Bilecen, Ahmet Berke Gokmen, Furkan Guzelant, Aysegul Dundar",
-    venue: "IEEE/CVF International Conference on Computer Vision (ICCV), 2025",
+    venue: "ICCV 2025",
     link: "https://three-bee.github.io/head_stylization/",
     type: "conference",
+    highlightVenue: true,
     image: "/img/teaser.png", 
+  },
+  {
+    title: "Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding",
+    authors: "Furkan Güzelant, Basavaraj Sunagad, Aysegul Dundar, Adam Kortylewski",
+    authorLinks: [
+      "https://openreview.net/profile?id=~Furkan_G%C3%BCzelant1",
+      "https://openreview.net/profile?id=~Basavaraj_Sunagad1",
+      "https://openreview.net/profile?id=~Aysegul_Dundar1",
+      "https://openreview.net/profile?id=~Adam_Kortylewski1",
+    ],
+    venue: "Manuscript in submission",
+    type: "manuscript",
+    videos: [
+      "/videos/angular-control-clock.mp4",
+      "/videos/angular-control-pizza.mp4",
+    ],
+  },
+  {
+    title: "Geometry-Aware 3D Scene Completion via Differentiable Next-View Selection",
+    authors: "Arda Göktoğan, Furkan Güzelant, Duygu Ceylan, Ayşegül Dündar",
+    venue: "Manuscript in submission",
+    type: "manuscript",
+    video: "/videos/geometry-aware-camera-optimization.mp4",
   },
 ];
 
@@ -153,10 +178,7 @@ export default function Portfolio() {
                   🙋‍♂️ About me
                 </p>
                 <p className="text-xl mb-4">
-                  I'm Furkan, a Master's student at Bilkent University, focusing on 3D generation, diffusion models, and image stylization. 
-                  I obtained my BSc degree at Bilkent University, 
-                  where I work under the supervision of <a href="https://www.cs.bilkent.edu.tr/~adundar/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Asst. Prof. Aysegul Dundar </a> 
-                  at the <a href="https://dlr.bilkent.edu.tr/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Generative Deep Learning Research Lab</a>.
+                  I am an MSc student in Computer Science at Bilkent University, advised by <a href="https://www.cs.bilkent.edu.tr/~adundar/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Asst. Prof. Ayşegül Dündar</a> at the <a href="https://dlr.bilkent.edu.tr/" className="text-blue-600 hover:text-blue-800 no-underline hover:underline">Generative Deep Learning Lab</a>. My research focuses on generative computer vision, particularly 3D reconstruction and generation, diffusion models, and digital humans. I am interested in developing generative models that reason about geometry and structure while producing consistent and controllable visual representations.
                 </p>
               </div>
             </section>
@@ -178,20 +200,51 @@ export default function Portfolio() {
                           - Kept `mx-auto sm:mx-0` for responsive alignment.
                       */}
                       <div className="w-full max-w-xs sm:max-w-none sm:w-72 aspect-video bg-gray-100 rounded-lg overflow-hidden border mx-auto sm:mx-0 relative group">
-                        <img 
-                          src={pub.image} 
-                          alt={`${pub.title} preview`}
-                          // object-cover ensures the image fills the aspect-ratio box without stretching
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            // Show fallback if image fails
-                            e.target.nextSibling.style.display = 'flex'; 
-                          }}
-                        />
+                        {pub.videos ? (
+                          <div className="grid grid-cols-2 w-full h-full bg-black">
+                            {pub.videos.map((video, videoIdx) => (
+                              <video
+                                key={video}
+                                src={video}
+                                aria-label={`${pub.title} example ${videoIdx + 1}`}
+                                className="w-full h-full object-cover"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                              />
+                            ))}
+                          </div>
+                        ) : pub.video ? (
+                          <video
+                            src={pub.video}
+                            aria-label={`${pub.title} preview`}
+                            className="w-full h-full object-cover"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                          />
+                        ) : pub.image ? (
+                          <img
+                            src={pub.image}
+                            alt={`${pub.title} preview`}
+                            // object-cover ensures the image fills the aspect-ratio box without stretching
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              // Show fallback if image fails
+                              e.target.nextSibling.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
                         {/* Fallback for missing image */}
-                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center hidden">
-                          <span className="text-gray-400 text-xs text-center px-2">Paper<br/>Image</span>
+                        <div className={`absolute inset-0 bg-gray-100 items-center justify-center ${pub.image || pub.video || pub.videos ? 'hidden' : 'flex'}`}>
+                          <span className="text-gray-400 text-sm font-medium text-center px-2">
+                            {pub.type === 'manuscript' ? 'Manuscript' : <>Paper<br/>Image</>}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -203,14 +256,36 @@ export default function Portfolio() {
                       <div className="flex-1 min-w-0">
                         {/* Mobile bullet point */}
                         <div className="sm:hidden text-2xl text-gray-400 mb-2 leading-none">-</div>
-                        <a
-                          href={pub.link}
-                          className="text-lg sm:text-xl font-medium text-blue-600 hover:text-blue-800 hover:underline block mb-2 leading-tight"
-                        >
-                          {pub.title}
-                        </a>
-                        <p className="text-gray-700 mb-1 text-base sm:text-lg">{pub.authors}</p>
-                        <p className="text-gray-600 italic text-sm sm:text-base">{pub.venue}</p>
+                        {pub.link ? (
+                          <a
+                            href={pub.link}
+                            className="text-lg sm:text-xl font-medium text-blue-600 hover:text-blue-800 hover:underline block mb-2 leading-tight"
+                          >
+                            {pub.title}
+                          </a>
+                        ) : (
+                          <h3 className="text-lg sm:text-xl font-medium text-gray-900 block mb-2 leading-tight">
+                            {pub.title}
+                          </h3>
+                        )}
+                        <p className="text-gray-700 mb-1 text-base sm:text-lg">
+                          {pub.authorLinks ? pub.authors.split(', ').map((author, authorIdx) => (
+                            <React.Fragment key={author}>
+                              {authorIdx > 0 && ', '}
+                              <a
+                                href={pub.authorLinks[authorIdx]}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-700 hover:underline"
+                              >
+                                {author}
+                              </a>
+                            </React.Fragment>
+                          )) : pub.authors}
+                        </p>
+                        <p className={`inline-flex w-fit rounded-md border px-2.5 py-1 text-sm sm:text-base ${pub.highlightVenue ? 'border-blue-200 bg-blue-50 text-blue-700 font-semibold' : 'border-gray-200 bg-gray-50 text-gray-600 italic'}`}>
+                          {pub.venue}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -225,6 +300,15 @@ export default function Portfolio() {
               </h2>
               
               <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="text-2xl text-gray-400 leading-none pt-[2px]">-</div>
+                  <div className="flex-1">
+                    <p className="text-gray-700">
+                      <span className="font-medium text-gray-900">[2026.06]</span> StyleFusion360, my first-author paper, was accepted to ECCV 2026!
+                    </p>
+                  </div>
+                </div>
+
                 <div className="flex gap-4">
                   <div className="text-2xl text-gray-400 leading-none pt-[2px]">-</div>
                   <div className="flex-1">
