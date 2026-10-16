@@ -7,7 +7,18 @@ const placeholderTeaser1 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?te
 const placeholderTeaser2 = "https://via.placeholder.com/640x360/E5E7EB/9CA3AF?text=arXiv+2025+Teaser";
 
 const publications = [
-    {
+  {
+    title: "Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding",
+    authors: "Furkan Güzelant, Basavaraj Sunagad, Aysegul Dundar, Adam Kortylewski",
+    venue: "WACV 2027",
+    type: "conference",
+    link: "https://furkanguzelant.github.io/angular_control/",
+    videos: [
+      "/videos/angular-control-clock.mp4",
+      "/videos/angular-control-pizza.mp4",
+    ],
+  },
+  {
     title: "StyleFusion360: View-Consistent Head Stylization via Adaptive Style Modulation",
     authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
     venue: "ECCV 2026",
@@ -26,23 +37,13 @@ const publications = [
     image: "/img/teaser.png", 
   },
   {
-    title: "Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding",
-    authors: "Furkan Güzelant, Basavaraj Sunagad, Aysegul Dundar, Adam Kortylewski",
-    venue: "WACV 2027",
-    type: "conference",
-    link: "https://furkanguzelant.github.io/angular_control/",
-    videos: [
-      "/videos/angular-control-clock.mp4",
-      "/videos/angular-control-pizza.mp4",
-    ],
-  },
-  {
     title: "Geometry-Aware 3D Scene Completion via Differentiable Next-View Selection",
     authors: "Arda Göktoğan, Furkan Güzelant, Duygu Ceylan, Ayşegül Dündar",
     venue: "Manuscript in submission",
     type: "manuscript",
     video: "/videos/geometry-aware-camera-optimization.mp4",
   },
+
 ];
 
 export default function Portfolio() {
