@@ -52,3 +52,5 @@ footer{padding:44px 0;background:var(--soft);border-top:1px solid var(--line);co
 .publication-authors span{white-space:nowrap}.publication-authors sup{margin-left:3px;color:var(--blue);font-size:.65em}
 .publication-affiliations{margin:0 auto 26px;color:var(--muted);font-size:16px;line-height:1.7}.publication-affiliations p{margin:2px 0}.publication-affiliations sup{color:var(--ink);font-size:.75em}
 @media(max-width:560px){.publication-authors{font-size:17px;gap:6px 18px}.publication-affiliations{font-size:14px}}
+
+.publication-venue{display:table;margin:0 auto 24px;padding:6px 16px;border-radius:12px;background:#f1f5f9;color:var(--muted);font-size:16px;font-weight:600}
