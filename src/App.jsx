@@ -21,7 +21,7 @@ const publications = [
   },
   {
     title: "StyleFusion360: View-Consistent Head Stylization via Adaptive Style Modulation",
-    authors: "Furkan Guzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
+    authors: "Furkan Güzelant, Arda Goktogan, Tarik Kaya, Aysegul Dundar",
     venue: "ECCV 2026",
     link: "/stylefusion360",
     type: "preprint",
@@ -30,7 +30,7 @@ const publications = [
   },
   {
     title: "Identity Preserving 3D Head Stylization with Multiview Score Distillation",
-    authors: "Bahri Batuhan Bilecen, Ahmet Berke Gokmen, Furkan Guzelant, Aysegul Dundar",
+    authors: "Bahri Batuhan Bilecen, Ahmet Berke Gokmen, Furkan Güzelant, Aysegul Dundar",
     venue: "ICCV 2025",
     link: "https://three-bee.github.io/head_stylization/",
     type: "conference",
