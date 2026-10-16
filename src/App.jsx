@@ -11,6 +11,7 @@ const publications = [
     title: "Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding",
     authors: "Furkan Güzelant, Basavaraj Sunagad, Aysegul Dundar, Adam Kortylewski",
     venue: "WACV 2027",
+    highlightVenue: true,
     type: "conference",
     link: "https://furkanguzelant.github.io/angular_control/",
     videos: [
@@ -265,19 +266,26 @@ export default function Portfolio() {
                           </h3>
                         )}
                         <p className="text-gray-700 mb-1 text-base sm:text-lg">
-                          {pub.authorLinks ? pub.authors.split(', ').map((author, authorIdx) => (
-                            <React.Fragment key={author}>
-                              {authorIdx > 0 && ', '}
-                              <a
-                                href={pub.authorLinks[authorIdx]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-blue-700 hover:underline"
-                              >
-                                {author}
-                              </a>
-                            </React.Fragment>
-                          )) : pub.authors}
+                          {pub.authors.split(', ').map((author, authorIdx) => {
+                            const name = /^Furkan G[üu]zelant$/.test(author)
+                              ? <strong className="font-bold">{author}</strong>
+                              : author;
+                            return (
+                              <React.Fragment key={author}>
+                                {authorIdx > 0 && ', '}
+                                {pub.authorLinks?.[authorIdx] ? (
+                                  <a
+                                    href={pub.authorLinks[authorIdx]}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-blue-700 hover:underline"
+                                  >
+                                    {name}
+                                  </a>
+                                ) : name}
+                              </React.Fragment>
+                            );
+                          })}
                         </p>
                         <p className={`inline-flex w-fit rounded-md border px-2.5 py-1 text-sm sm:text-base ${pub.highlightVenue ? 'border-blue-200 bg-blue-50 text-blue-700 font-semibold' : 'border-gray-200 bg-gray-50 text-gray-600 italic'}`}>
                           {pub.venue}
