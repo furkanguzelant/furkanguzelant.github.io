@@ -124,7 +124,7 @@ export default function Portfolio() {
                   <GraduationCap className="w-5 h-5" />
                 </a>
                 <a
-                  href="/cv/Resume_Furkan_Guzelant.pdf"
+                  href="/cv/Furkan_Guzelant_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
