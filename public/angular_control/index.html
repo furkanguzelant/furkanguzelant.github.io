@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding</title>
+  <meta name="description" content="Project page for continuous geometric control in text-to-image generation.">
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+  <header class="hero">
+    <div class="container">
+      <h1>Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding</h1>
+      <p class="subtitle">A unified geometric token encoding framework for controlling clock times and fractional portions in text-to-image diffusion models.</p>
+      <div class="links" role="group" aria-label="Project resources">
+        <button type="button" disabled>Paper PDF</button>
+        <button type="button" disabled>Code</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview" class="section">
+      <div class="container">
+        <img decoding="async" fetchpriority="high" class="wide-figure" src="static/images/teaser.png" alt="Comparison of clock and fraction control results.">
+        <p class="image-description">
+          Overview examples comparing precise clock-time and fraction control across several image generators. Each column uses a fixed target value and prompt; the bottom row shows our geometry-token model.
+        </p>
+        <h2 class="abstract-title">Abstract</h2>
+        <div class="summary">
+          <p>
+            Current text-to-image models often fail when a prompt requires an object to encode a precise continuous quantity, such as an analog clock showing a specific time or a circular object showing a specific fraction.
+            We represent these quantities as periodic geometric features, map them to CLIP-compatible token embeddings, and inject them before the text encoder.
+          </p>
+          <p>
+            During training, bounding boxes provide privileged spatial guidance for the
+            geometric tokens, while Stochastic Localization Relaxation (SLR) varies the
+            localization supervision from component-level to object-level to unconstrained
+            attention.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section alt">
+      <div class="container">
+        <h2>Method</h2>
+        <div class="two-col">
+          <figure>
+            <img loading="lazy" decoding="async" src="static/images/method.png" alt="Geometric token encoding method.">
+            <figcaption>Continuous quantities are encoded as geometric tokens and injected into the text conditioning stream.</figcaption>
+            <p class="figure-description">Target values are converted to periodic angle features, projected into role-specific token embeddings, and inserted into the prompt before the frozen text encoder.</p>
+          </figure>
+          <figure>
+            <img loading="lazy" decoding="async" src="static/images/bbox_dropout.png" alt="Bounding-box dropout training design.">
+            <figcaption>Component-level bbox guidance is used only during training; inference is bbox-free.</figcaption>
+            <p class="figure-description">Training alternates between component-level, object-level, and unconstrained attention localization so the model learns to use privileged boxes without requiring them at test time.</p>
+          </figure>
+        </div>
+        <div class="method-details">
+          <section aria-labelledby="periodic-tokens">
+            <h3 id="periodic-tokens">Periodic encoding and geometric tokens</h3>
+            <p>We represent clock-hand angles and circular-sector boundaries using periodic sine-cosine features, enabling smooth control across the angular range. A lightweight projection network maps these features to role-specific tokens, which are inserted into the prompt before the frozen text encoder. Only the projection network and diffusion LoRA adapters are trained, separately for clocks and fractions.</p>
+          </section>
+          <section aria-labelledby="localization-relaxation">
+            <h3 id="localization-relaxation">Stochastic Localization Relaxation</h3>
+            <p>During training, SLR varies attention guidance between component-level boxes (55%), a shared object box (30%), and unconstrained attention (15%). This grounds each token in the correct visual region while teaching the model to operate without spatial guidance. Inference requires only the text prompt and target value.</p>
+          </section>
+          <section aria-labelledby="swap-preference">
+            <h3 id="swap-preference">Hand-swap preference loss</h3>
+            <p>For clocks, a second training phase reduces confusion between hour- and minute-hand roles. We compare correct token assignments with a hard negative formed by swapping the two hand embeddings under identical noise conditions. Alongside the diffusion loss, the preference loss rewards greater improvement over a fixed reference for the correct assignment. This additional objective is used only for clocks.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section">
+      <div class="container">
+        <h2>Results</h2>
+        <div class="metrics">
+          <div>
+            <strong>~70%</strong>
+            <span>clock two-hand accuracy within 6 degrees</span>
+          </div>
+          <div>
+            <strong>~84%</strong>
+            <span>fraction transfer accuracy on unseen object categories</span>
+          </div>
+        </div>
+        <figure class="full">
+          <img loading="lazy" decoding="async" src="static/images/generalization.png" alt="Generalization figure.">
+          <figcaption>Generalization across continuous values and held-out settings.</figcaption>
+          <p class="figure-description">These examples evaluate whether the learned geometric tokens remain controllable across target values and object appearances beyond the exact training samples.</p>
+        </figure>
+        <figure class="full">
+          <img loading="lazy" decoding="async" src="static/images/fraction_baseline_comparison_diverse.png" alt="Fraction baseline comparison on fruit tart and waffle prompts.">
+          <figcaption>Fraction model comparison on a non-pizza object.</figcaption>
+          <p class="figure-description">We compare zero-shot fraction generations from SD 2.1, SDXL, SD 3.5, and Flux.1 against our geometric-token model using matched fruit tart and waffle prompts while varying only the target fraction. The baseline models often preserve realistic appearance, but the requested visible portion is not reliably controlled.</p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- CLOCK_VIDEO_SECTION_START -->
+    <section id="clock-videos" class="section alt">
+      <div class="container">
+        <h2>Clock Control Videos</h2>
+        <p class="section-note">For each visualization, the text prompt and random seed are fixed while the target time is swept from 00:00 to 11:59 in 1-minute steps. This isolates the effect of changing only the geometric token values.</p>
+        <div class="video-grid clock-video-grid">
+          <figure>
+            <video aria-label="Black analog clock" src="static/videos/clock_selected_1min/black_analog_clock_seed21170_dense1_0000to1159_fps12.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Black analog clock</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Brass Art Deco table clock" src="static/videos/clock_selected_1min/brass_art_deco_table_clock_seed21060_dense1_0000to1159_fps12.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Brass Art Deco table clock</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Green marble luxury clock" src="static/videos/clock_selected_1min/green_marble_luxury_clock_seed21060_dense1_0000to1159_fps12.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Green marble luxury clock</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Metal analog clock" src="static/videos/clock_selected_1min/metal_analog_clock_seed18300_dense1_0000to1159_fps12.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Metal analog clock</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <!-- CLOCK_VIDEO_SECTION_END -->
+
+    <section id="fraction-videos" class="section">
+      <div class="container">
+        <h2>Fraction Control Videos</h2>
+        <p class="section-note">For each visualization, the object prompt and random seed are fixed while the target sector angle is swept from 010 to 350 degrees. The videos show how the generated portion changes as only the fraction geometry changes.</p>
+        <div class="video-grid">
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/01_fraction_25_berry_waffle_pizza_waffle_simple_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Berry waffle</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/02_fraction_12_burger_patty_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Burger patty</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/03_fraction_07_cake_tiramisu_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Cake tiramisu</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/04_fraction_11_cheese_wheel_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Cheese wheel</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/05_fraction_09_cherry_pie_wood_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Cherry pie wood</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/06_fraction_26_chocolate_waffle_pizza_waffle_simple_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Chocolate waffle</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/07_fraction_08_cinnamon_roll_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Cinnamon roll</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/09_fraction_22_donut_glazed_diverse_round_food_trainlike_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Donut glazed</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/10_fraction_21_mosaic_sameseed_transfer_fps3_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Mosaic transfer</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/11_fraction_10_orange_slice_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Orange slice</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/12_fraction_03_pancake_ceramic_plate_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Pancake ceramic plate</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/13_fraction_02_pepperoni_pizza_marble_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Pepperoni pizza marble</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/14_fraction_18_pizza_fourcheese_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Pizza four-cheese</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/15_fraction_15_pizza_margherita_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Pizza margherita</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/16_fraction_16_pizza_veggie_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Pizza veggie</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/17_fraction_05_quesadilla_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Quesadilla</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/18_fraction_04_quiche_lorraine_plate_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Quiche lorraine plate</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/19_fraction_19_roulette_wheel_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Roulette wheel</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/20_fraction_30_stained_glass_rose_window_round_stress_transfer_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Stained glass rose window</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/22_fraction_13_waffle_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Waffle</figcaption>
+          </figure>
+          <figure>
+            <video aria-label="Continuous angular control demonstration" src="static/videos/labeled_project_page_frame_labels_clean/24_fraction_01_watermelon_round_010to350deg_fps3.mp4" controls autoplay muted loop playsinline preload="metadata"></video>
+            <figcaption>Watermelon round</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Additional Qualitative Results</h2>
+        <figure class="full">
+          <img loading="lazy" decoding="async" src="static/images/fraction_ours_unseen_qualitative.png" alt="Unseen fraction qualitative outputs from our model.">
+          <figcaption>Evaluation-selected qualitative outputs from our model on the 14-object unseen-fraction set.</figcaption>
+          <p class="figure-description">The targets in this grid use fraction angles that are not part of the 5-degree training grid, illustrating interpolation behavior on held-out fraction values.</p>
+        </figure>
+        <figure class="full">
+          <img loading="lazy" decoding="async" src="static/images/scene_generation.png" alt="Scene generation examples.">
+          <figcaption>Clock and fraction control in richer scenes.</figcaption>
+          <p class="figure-description">These scene-level examples test whether the same geometric-token controls remain usable when the controlled object appears with additional surrounding context.</p>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Continuous Angular Control</p>
+      <p class="template-credit">Page design adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> by Eliahu Horwitz, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>
