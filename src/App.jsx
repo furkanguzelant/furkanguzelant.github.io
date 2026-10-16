@@ -28,14 +28,9 @@ const publications = [
   {
     title: "Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding",
     authors: "Furkan Güzelant, Basavaraj Sunagad, Aysegul Dundar, Adam Kortylewski",
-    authorLinks: [
-      "https://openreview.net/profile?id=~Furkan_G%C3%BCzelant1",
-      "https://openreview.net/profile?id=~Basavaraj_Sunagad1",
-      "https://openreview.net/profile?id=~Aysegul_Dundar1",
-      "https://openreview.net/profile?id=~Adam_Kortylewski1",
-    ],
-    venue: "Manuscript in submission",
-    type: "manuscript",
+    venue: "WACV 2027",
+    type: "conference",
+    link: "https://furkanguzelant.github.io/angular_control/",
     videos: [
       "/videos/angular-control-clock.mp4",
       "/videos/angular-control-pizza.mp4",
