@@ -47,3 +47,8 @@ footer{padding:44px 0;background:var(--soft);border-top:1px solid var(--line);co
 .method-equation{margin:22px 0;padding:20px 24px;background:#fff;border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:"Cambria Math",Cambria,"Times New Roman",serif;font-size:20px;line-height:2;text-align:center;overflow-wrap:anywhere}
 .regime-list{padding-left:24px;margin:18px 0 24px}.regime-list li+li{margin-top:10px}.regime-list strong{color:var(--ink)}
 @media(max-width:560px){.method-details{font-size:16px}.method-details h3{font-size:20px}.method-equation{padding:16px 12px;font-size:17px}}
+
+.publication-authors{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin:0 auto 14px;font-size:20px;font-weight:500;color:var(--ink)}
+.publication-authors span{white-space:nowrap}.publication-authors sup{margin-left:3px;color:var(--blue);font-size:.65em}
+.publication-affiliations{margin:0 auto 26px;color:var(--muted);font-size:16px;line-height:1.7}.publication-affiliations p{margin:2px 0}.publication-affiliations sup{color:var(--ink);font-size:.75em}
+@media(max-width:560px){.publication-authors{font-size:17px;gap:6px 18px}.publication-affiliations{font-size:14px}}
