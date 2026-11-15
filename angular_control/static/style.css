@@ -55,4 +55,10 @@ footer{padding:44px 0;background:var(--soft);border-top:1px solid var(--line);co
 
 .publication-venue{display:table;margin:0 auto 24px;padding:6px 16px;border-radius:12px;background:#f1f5f9;color:var(--muted);font-size:16px;font-weight:600}
 
-.links .resource-icon{width:18px;height:18px;flex:0 0 18px}
+/* Icon fonts used by the Academic Project Page Template.
+   Academicons (SIL OFL 1.1) and Font Awesome Free Brands (SIL OFL 1.1). */
+@font-face{font-family:Academicons;src:url('fonts/academicons.woff') format('woff');font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:'Font Awesome 5 Brands';src:url('fonts/fa-brands-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
+.links .resource-icon{display:inline-block;width:20px;flex:0 0 20px;font-size:20px;font-weight:400;font-style:normal;line-height:1;text-align:center;color:#fff}
+.ai{font-family:Academicons}.ai-arxiv:before{content:"\e974"}
+.fab{font-family:'Font Awesome 5 Brands'}.fa-github:before{content:"\f09b"}
